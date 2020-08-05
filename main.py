@@ -1,0 +1,221 @@
+#! "D:\Storage\python_venvs\Python37\gopnas\Scripts\python.exe"
+# coding: utf-8
+from kivy.config import Config
+
+Config.set('graphics', 'width', '405')
+Config.set('graphics', 'height', '720')
+Config.set('graphics', 'resizable', True)
+
+import os
+import codecs
+import json
+import PIL.Image
+import colordict as cd
+
+from kivy.app import App
+from kivy.properties import *
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.image import AsyncImage
+from kivy.uix.dropdown import DropDown
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.label import Label
+from kivy.clock import Clock
+
+colors = cd.ColorDict(norm=1, mode='rgba', palettes_path='./resources/palettes')
+
+
+class Root(FloatLayout):
+    info_layout = ObjectProperty(None)
+    dropdown = ObjectProperty(None)
+    dropdown_button = ObjectProperty(None)
+    scrollview = ObjectProperty(None)
+    bg_image = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(Root, self).__init__(**kwargs)
+
+        self.info_layout = InfoLayout()
+        self.dropdown = DropDown()
+        self.dropdown.auto_dismiss = False
+        self.dropdown.effect_cls = 'ScrollEffect'
+        self.dropdown_button.bind(on_release=self.dropdown.open)
+        groups = sorted(next(os.walk(app.cladi_directory))[1])
+        for group in groups:
+            self.dropdown.add_widget(GroupButton(group))
+
+        # Esse widget é adicionado e removido respectivamente por GroupButton e SpeciesButton
+        self.scrollview = ButtonScrollView()
+
+    # Não pode ser on_touch_up porque senão ele fecha abre e fecha o dropdown imediatamente
+    def on_touch_down(self, touch):
+        # Colisão levando em conta que ScrollViews agem como RelativeLayouts
+        if not self.scrollview.container.collide_point(*self.scrollview.container.to_widget(*touch.pos)):
+            self.remove_widget(self.scrollview)
+            self.dropdown.dismiss()
+        return super().on_touch_down(touch)
+
+
+class InfoLayout(FloatLayout):
+    group = StringProperty('')
+    species = StringProperty('')
+    cladus_directory = StringProperty('')
+    carousel = ObjectProperty(None)
+    tabs = ObjectProperty(None)
+    current_tab = ObjectProperty(None)
+    btn_line = ObjectProperty(None)
+    info_label = ObjectProperty(None)
+
+    def display_cladi(self, group, species):
+        self.group = group
+        self.species = species
+        self.cladus_directory = os.path.join(app.cladi_directory, self.group, self.species)
+
+        self.carousel.clear_widgets()
+        path, _, im_iter = next(os.walk(os.path.join(self.cladus_directory, 'images')))
+        im_iter.sort()
+        for i, image in enumerate(im_iter):
+            im_path = os.path.join(path, image)
+            # Decodifica o metadata do JPG em busca de comentários (marcados pela tag 40092)
+            image_exif = PIL.Image.open(im_path).getexif()
+            comment_binary = image_exif.get(40092)
+            author = image_exif.get(315)
+            # Carrega a primeira imagem imediatamente enquanto as demais carregam asincronizadamente
+            if i == 0:
+                self.carousel.add_widget(CommentedImage(comment_binary, author, source=im_path, allow_stretch=True))
+            else:
+                self.carousel.add_widget(AsyncCommented(comment_binary, author, source=im_path, allow_stretch=True))
+
+        default_tab = self.tabs.children[-1]
+        if not self.current_tab:
+            self.current_tab = default_tab
+        self.set_info_label(default_tab)
+
+    def set_info_label(self, btn):
+        self.info_label.parent.scroll_y = 1
+        with codecs.open(os.path.join(self.cladus_directory, btn.file), 'r', 'utf-8') as file:
+            self.info_label.text = file.read()
+        self.current_tab.color = colors['black']
+        btn.color = colors['current_tab']
+        self.current_tab.disabled = False
+        btn.disabled = True
+        self.current_tab = btn
+
+
+class ButtonScrollView(ScrollView):
+    pass
+
+
+class GroupButton(Button):
+    group = StringProperty('')
+    cladus_directory = StringProperty('')
+
+    def __init__(self, group, **kwargs):
+        super().__init__(**kwargs)
+
+        self.group = group
+        self.cladus_directory = os.path.join(app.cladi_directory, self.group)
+
+    def on_release(self):
+        if not app.root.scrollview.parent:
+            app.root.add_widget(app.root.scrollview)
+        app.root.scrollview.scroll_y = 1
+
+        app.root.scrollview.container.clear_widgets()
+        dir_iter = sorted(next(os.walk(self.cladus_directory))[1])
+        grad_list = cd.LinearGrad([colors[name] for name in colors.palettes['icons']]).n_colors(len(dir_iter))
+        for i, species in enumerate(dir_iter):
+            btn = SpeciesButton(
+                self.group,
+                species,
+                background_color=grad_list[i]
+            )
+            app.root.scrollview.container.add_widget(btn)
+
+
+class SpeciesButton(GroupButton):
+    species = StringProperty('')
+
+    def __init__(self, group, species, **kwargs):
+        super().__init__(group, **kwargs)
+
+        self.species = species
+        self.cladus_directory = os.path.join(self.cladus_directory, self.species)
+
+    def on_release(self):
+        app.root.clear_widgets(children=[app.root.info_layout, app.root.scrollview, app.root.bg_image])
+        app.root.dropdown.dismiss()
+
+        if not app.root.info_layout.parent:
+            app.root.add_widget(app.root.info_layout)
+        app.root.info_layout.display_cladi(self.group, self.species)
+
+
+class CommentedImage(Image):
+    comment = StringProperty('')
+    comment_label = ObjectProperty(None)
+    author = StringProperty('')
+    author_label = ObjectProperty(None)
+
+    def __init__(self, comment_bin, author, **kwargs):
+        super().__init__(**kwargs)
+
+        self.comment = ''
+        # Cortar o último byte que vem bugado
+        if comment_bin is not None:
+            self.comment += comment_bin.decode('utf-16')[:-1]
+        if author is not None:
+            self.comment += ('; ' if self.comment else '') + 'Foto de ' + author
+        if self.comment:
+            self.comment_label = CommentLabel(text=self.comment)
+            self.bind(pos=self.comment_label.setter('pos'))
+            self.add_widget(self.comment_label)
+
+            self.remove_comment = Clock.create_trigger(lambda *args: setattr(self.comment_label, 'disabled', True), 4)
+
+    def on_touch_down(self, touch):
+        if self.comment:
+            self.comment_label.disabled = False
+            self.remove_comment.cancel()
+            self.remove_comment()
+        super().on_touch_down(touch)
+        return True
+
+
+class AsyncCommented(AsyncImage, CommentedImage):
+    def __init__(self, comment_bin, author, **kwargs):
+        # Descobri que sempre se passa kwargs e nunca args para multipla inheritance
+        super().__init__(comment_bin=comment_bin, author=author, **kwargs)
+
+
+class CommentLabel(Label):
+    background_color = ListProperty([])
+
+    def on_disabled(self, obj, val):
+        if val:
+            self.color = colors['white', 'rgb'] + (.2,)
+            self.background_color = colors['dimgray', 'rgb'] + (0,)
+        else:
+            self.color = colors['white']
+            self.background_color = colors['dimgray']
+
+
+class MainApp(App):
+    btns_h = NumericProperty(1/8)
+    infos_width_hint = NumericProperty(5/6)
+    resources_directory = StringProperty('')
+    cladi_directory = StringProperty('')
+    species_aliases = DictProperty({})
+
+    def build(self):
+        self.resources_directory = os.path.join(self.directory, 'resources')
+        self.cladi_directory = os.path.join(self.directory, 'cladi')
+        with codecs.open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r', 'utf-8') as file:
+            self.species_aliases = json.load(file)
+        return Root()
+
+
+if __name__ == '__main__':
+    app = MainApp()
+    app.run()

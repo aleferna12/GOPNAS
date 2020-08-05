@@ -1,0 +1,176 @@
+# coding: utf-8
+#: import os os
+#: import Window kivy.core.window.Window
+#: import colors main.colors
+
+<Root>:
+    dropdown_button: dropdown_button
+    # Widgets que são removidos e readicionados têm de ser referenciados por id.__self__, pois id é weakref
+    # Ver "https://kivy.org/doc/stable/guide/lang.html#referencing-widgets" e "python_projects/kivy/weak_ref.py"
+    bg_image: bg_image.__self__
+
+    canvas.before:
+        Color:
+            rgba: colors['background']
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Image:
+        id: bg_image
+        source: os.path.join(app.resources_directory, 'logo.png')
+        pos_hint: {'center': (0.5, 0.6)}
+        size_hint: (None, 2/5)
+        width: self.height
+        allow_stretch: True
+
+    Button:
+        id: dropdown_button
+        pos_hint: {'x': 0, 'top': 1}
+        size_hint: (None, app.btns_h)
+        width: self.height
+        border: [0, 0, 0, 0]
+        background_normal: os.path.join(app.resources_directory, 'dropdown_button.png')
+        background_down: self.background_normal
+
+
+<InfoLayout>:
+    carousel: carousel.__self__
+    tabs: tabs.__self__
+    info_label: info_label.__self__
+
+    Image:
+        source: os.path.join(app.cladi_directory, root.group, 'silh.png') if root.group else ''
+        allow_stretch: True
+        keep_ratio: True
+        pos_hint: {'top': 1}
+        x: app.btns_h*root.height
+        size_hint: (None, app.btns_h)
+        # Isso serve para que, caso root.height*app.btn_h < 430 (res. original das silh.s), ele não diminua a imagem horizontalmente
+        # Isso pode ocorrer principalmente em desktops, em razão de que keep_ratio só se aplica para ampliações
+        width: self.image_ratio*self.height
+
+    Label:
+        text: str(app.species_aliases.get(root.species))
+        font_size: min(Window.width*30/405, Window.height*30/720)
+        padding_x: 10
+        size_hint: (None, None)
+        size: self.texture_size
+        pos_hint: {'center_x': 0.5, 'y': 0.8}
+
+    Carousel:
+        id: carousel
+        # Bugado no momento (https://github.com/kivy/kivy/issues/6367)
+        # loop: True
+        pos_hint: {'top': 0.8}
+        size_hint_y: 9/16*root.width/root.height
+        # Altura máxima arbitrária
+        size_hint_max_y: 3/7*root.height
+
+        canvas.before:
+            Color:
+                rgba: colors['gray']
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        canvas.after:
+            Color:
+                rgba: colors['white']
+            Line:
+                points: [(self.x, self.top), (self.right, self.top)]
+            Line:
+                points: [(self.x, self.y), (self.right, self.y)]
+
+    BoxLayout:
+        id: tabs
+        top: carousel.y
+        size_hint_y: 1/18
+
+        TabButton:
+            file: 'file.txt'
+            on_press: root.set_info_label(self)
+            text: 'Ficha'
+        TabButton:
+            file: 'info.txt'
+            on_press: root.set_info_label(self)
+            text: 'Caracter\u00edsticas'
+        TabButton:
+            file: 'hab.txt'
+            on_press: root.set_info_label(self)
+            text: 'H\u00e1bitos'
+
+    ScrollView:
+        effect_cls: 'ScrollEffect'
+        scroll_y: 1
+        size_hint_y: None
+        height: tabs.y
+
+        canvas.before:
+            Color:
+                rgba: colors['infobg']
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        Label:
+            id: info_label
+            color: colors['black']
+            markup: True
+            font_size: min(Window.width*15/405, Window.height*15/720)
+            padding: (10, 10)
+            size_hint_y: None
+            height: self.texture_size[1]
+            text_size: (self.width, None)
+
+
+<TabButton@Button>:
+    font_size: min(Window.width*17/405, Window.height*17/720)
+    bold: True
+    color: colors['black']
+    disabled_color: self.color
+    background_color: colors['infobg']
+    background_disabled_normal: os.path.join(app.resources_directory, 'active_tabbutton.png')
+    background_disabled_down: self.background_disabled_normal
+    background_normal: os.path.join(app.resources_directory, 'inactive_tabbutton.png')
+
+
+<ButtonScrollView>:
+    container: container
+    size_hint_x: None
+    width: app.btns_h*root.height
+    x: self.width
+    effect_cls: 'ScrollEffect'
+
+    BoxLayout:
+        id: container
+        orientation: 'vertical'
+        size_hint_y: None
+        height: self.minimum_height
+
+
+<GroupButton>:
+    size_hint: (1, None)
+    height: self.width
+    background_normal: ''
+    background_down: ''
+
+    Image:
+        source: os.path.join(root.cladus_directory, 'icon.png') if os.path.exists(os.path.join(root.cladus_directory, 'icon.png')) else ''
+        size_hint: (None, None)
+        size: root.size
+        pos: root.pos
+
+
+<CommentLabel>:
+    padding: (3, 1)
+    font_size: min(Window.width*14/405, Window.height*14/720)
+    disabled: True
+    size_hint: (None, None)
+    size: self.texture_size
+
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
