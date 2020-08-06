@@ -1,4 +1,4 @@
-# GOPNAS
+# GOPNAS - Guia Ornitológico do PN Aparados da Serra
 
 ## Instalação
 
