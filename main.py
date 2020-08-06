@@ -23,8 +23,6 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.label import Label
 from kivy.clock import Clock
 
-colors = cd.ColorDict(norm=1, mode='rgba', palettes_path='./resources/palettes')
-
 
 class Root(FloatLayout):
     info_layout = ObjectProperty(None)
@@ -96,8 +94,8 @@ class InfoLayout(FloatLayout):
         self.info_label.parent.scroll_y = 1
         with codecs.open(os.path.join(self.cladus_directory, btn.file), 'r', 'utf-8') as file:
             self.info_label.text = file.read()
-        self.current_tab.color = colors['black']
-        btn.color = colors['current_tab']
+        self.current_tab.color = app.colors['black']
+        btn.color = app.colors['current_tab']
         self.current_tab.disabled = False
         btn.disabled = True
         self.current_tab = btn
@@ -124,7 +122,7 @@ class GroupButton(Button):
 
         app.root.scrollview.container.clear_widgets()
         dir_iter = sorted(next(os.walk(self.cladus_directory))[1])
-        grad_list = cd.LinearGrad([colors[name] for name in colors.palettes['icons']]).n_colors(len(dir_iter))
+        grad_list = cd.LinearGrad([app.colors[name] for name in app.colors.palettes['icons']]).n_colors(len(dir_iter))
         for i, species in enumerate(dir_iter):
             btn = SpeciesButton(
                 self.group,
@@ -194,11 +192,11 @@ class CommentLabel(Label):
 
     def on_disabled(self, obj, val):
         if val:
-            self.color = colors['white', 'rgb'] + (.2,)
-            self.background_color = colors['dimgray', 'rgb'] + (0,)
+            self.color = app.colors['white', 'rgb'] + (.2,)
+            self.background_color = app.colors['dimgray', 'rgb'] + (0,)
         else:
-            self.color = colors['white']
-            self.background_color = colors['dimgray']
+            self.color = app.colors['white']
+            self.background_color = app.colors['dimgray']
 
 
 class MainApp(App):
@@ -207,6 +205,7 @@ class MainApp(App):
     resources_directory = StringProperty('')
     cladi_directory = StringProperty('')
     species_aliases = DictProperty({})
+    colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='./resources/palettes'))
 
     def build(self):
         self.resources_directory = os.path.join(self.directory, 'resources')

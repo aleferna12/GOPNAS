@@ -1,7 +1,6 @@
 # coding: utf-8
 #: import os os
 #: import Window kivy.core.window.Window
-#: import colors main.colors
 
 <Root>:
     dropdown_button: dropdown_button
@@ -11,7 +10,7 @@
 
     canvas.before:
         Color:
-            rgba: colors['background']
+            rgba: app.colors['background']
         Rectangle:
             pos: self.pos
             size: self.size
@@ -69,13 +68,13 @@
 
         canvas.before:
             Color:
-                rgba: colors['gray']
+                rgba: app.colors['gray']
             Rectangle:
                 size: self.size
                 pos: self.pos
         canvas.after:
             Color:
-                rgba: colors['white']
+                rgba: app.colors['white']
             Line:
                 points: [(self.x, self.top), (self.right, self.top)]
             Line:
@@ -107,14 +106,14 @@
 
         canvas.before:
             Color:
-                rgba: colors['infobg']
+                rgba: app.colors['infobg']
             Rectangle:
                 size: self.size
                 pos: self.pos
 
         Label:
             id: info_label
-            color: colors['black']
+            color: app.colors['black']
             markup: True
             font_size: min(Window.width*15/405, Window.height*15/720)
             padding: (10, 10)
@@ -126,9 +125,9 @@
 <TabButton@Button>:
     font_size: min(Window.width*17/405, Window.height*17/720)
     bold: True
-    color: colors['black']
+    color: app.colors['black']
     disabled_color: self.color
-    background_color: colors['infobg']
+    background_color: app.colors['infobg']
     background_disabled_normal: os.path.join(app.resources_directory, 'active_tabbutton.png')
     background_disabled_down: self.background_disabled_normal
     background_normal: os.path.join(app.resources_directory, 'inactive_tabbutton.png')
