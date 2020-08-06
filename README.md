@@ -7,7 +7,7 @@
 ###### Beta (recomendado)
 
 1. Faça download [desse](https://github.com/aleferna12/GOPNAS/archive/v1.0.0-beta.zip) arquivo
-2. Extraia a pasta "GOPNAS" do arquivo (clique com o botão direito no arquivo .zip e na opção "Extrair Aqui")
+2. Extraia a pasta "GOPNAS-1.0.0-beta" do arquivo (clique com o botão direito no arquivo "GOPNAS-1.0.0-beta.zip" e depois na opção "Extrair Aqui")
 3. Entre na pasta e execute o arquivo "GOPNAS.exe"
 
 ###### Última versão de desenvolvimento
