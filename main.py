@@ -208,6 +208,7 @@ class MainApp(App):
     colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='./resources/palettes'))
 
     def build(self):
+        self.title = 'GOPNAS'
         self.resources_directory = os.path.join(self.directory, 'resources')
         self.cladi_directory = os.path.join(self.directory, 'cladi')
         with codecs.open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r', 'utf-8') as file:
