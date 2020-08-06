@@ -2,8 +2,7 @@
 # coding: utf-8
 from kivy.config import Config
 
-Config.set('graphics', 'width', '405')
-Config.set('graphics', 'height', '720')
+Config.set('graphics', 'window_state', 'maximized')
 Config.set('graphics', 'resizable', True)
 
 import os
@@ -48,8 +47,9 @@ class Root(FloatLayout):
 
     # Não pode ser on_touch_up porque senão ele fecha abre e fecha o dropdown imediatamente
     def on_touch_down(self, touch):
-        # Colisão levando em conta que ScrollViews agem como RelativeLayouts
-        if not self.scrollview.container.collide_point(*self.scrollview.container.to_widget(*touch.pos)):
+        # Lógica para contornar o fato de que mesmo com o scrollview não adicionado ele retorna True para collide_point()
+        if not (self.scrollview.parent and self.scrollview.collide_point(*touch.pos))\
+                and not self.dropdown.collide_point(*touch.pos):
             self.remove_widget(self.scrollview)
             self.dropdown.dismiss()
         return super().on_touch_down(touch)
@@ -177,8 +177,8 @@ class CommentedImage(Image):
             self.comment_label.disabled = False
             self.remove_comment.cancel()
             self.remove_comment()
-        super().on_touch_down(touch)
-        return True
+            return True
+        else: return super().on_touch_down(touch)
 
 
 class AsyncCommented(AsyncImage, CommentedImage):
