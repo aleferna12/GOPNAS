@@ -8,6 +8,8 @@
 2. Extraia a pasta "gopnas" do arquivo que foi baixado
 3. Entre na pasta e execute o arquivo "GOPNAS.exe"
 
+## Guia de contribuição
+
 Esta aplicação é autonoma no que se refere à adição de novas espécies e grupos de aves.
 Desde de que os arquivos tenham sido adicionados da forma correta, eles serão automaticamente dispostos na árvore dentro
  da aplicação em ordem alfabética.
