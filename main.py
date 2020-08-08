@@ -1,4 +1,4 @@
-#! "D:\Storage\python_venvs\Python37\gopnas\Scripts\python.exe"
+#! "D:\alefe\Python Venvs\Python37\GOPNAS\Scripts\python.exe"
 # coding: utf-8
 from kivy.config import Config
 
@@ -205,12 +205,12 @@ class MainApp(App):
     resources_directory = StringProperty('')
     cladi_directory = StringProperty('')
     species_aliases = DictProperty({})
-    colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='./resources/palettes'))
+    colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='./Resources/Palettes'))
 
     def build(self):
         self.title = 'GOPNAS'
-        self.resources_directory = os.path.join(self.directory, 'resources')
-        self.cladi_directory = os.path.join(self.directory, 'cladi')
+        self.resources_directory = os.path.join(self.directory, 'Resources')
+        self.cladi_directory = os.path.join(self.directory, 'Cladi')
         with codecs.open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r', 'utf-8') as file:
             self.species_aliases = json.load(file)
         return Root()
