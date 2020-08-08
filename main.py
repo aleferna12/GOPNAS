@@ -205,7 +205,7 @@ class MainApp(App):
     resources_directory = StringProperty('')
     cladi_directory = StringProperty('')
     species_aliases = DictProperty({})
-    colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='./Resources/Palettes'))
+    colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='Resources/Palettes'))
 
     def build(self):
         self.title = 'GOPNAS'
