@@ -37,5 +37,5 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=False,
-          icon='./resources/app_icon.ico'
+          icon='./Resources/app_icon.ico'
           )
