@@ -2,6 +2,8 @@
 # coding: utf-8
 from kivy.config import Config
 
+Config.set('graphics', 'width', 405)
+Config.set('graphics', 'height', 720)
 Config.set('graphics', 'window_state', 'maximized')
 Config.set('graphics', 'resizable', True)
 
@@ -29,6 +31,7 @@ class Root(FloatLayout):
     dropdown_button = ObjectProperty(None)
     scrollview = ObjectProperty(None)
     bg_image = ObjectProperty(None)
+    credits_button = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(Root, self).__init__(**kwargs)
@@ -142,7 +145,7 @@ class SpeciesButton(GroupButton):
         self.cladus_directory = os.path.join(self.cladus_directory, self.species)
 
     def on_release(self):
-        app.root.clear_widgets(children=[app.root.info_layout, app.root.scrollview, app.root.bg_image])
+        app.root.clear_widgets(children=[app.root.info_layout, app.root.scrollview, app.root.bg_image, app.root.credits_button])
         app.root.dropdown.dismiss()
 
         if not app.root.info_layout.parent:

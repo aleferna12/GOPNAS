@@ -1,12 +1,15 @@
 # coding: utf-8
 #: import os os
 #: import Window kivy.core.window.Window
+#: import Factory kivy.factory.Factory
+#: import Label kivy.uix.label.Label
 
 <Root>:
     dropdown_button: dropdown_button
     # Widgets que são removidos e readicionados têm de ser referenciados por id.__self__, pois id é weakref
     # Ver "https://kivy.org/doc/stable/guide/lang.html#referencing-widgets" e "python_projects/kivy/weak_ref.py"
     bg_image: bg_image.__self__
+    credits_button: credits_button.__self__
 
     canvas.before:
         Color:
@@ -28,9 +31,43 @@
         pos_hint: {'x': 0, 'top': 1}
         size_hint: (None, app.btns_h)
         width: self.height
-        border: [0, 0, 0, 0]
         background_normal: os.path.join(app.resources_directory, 'dropdown_button.png')
         background_down: self.background_normal
+
+    Button:
+        id: credits_button
+        on_release: Factory.CreditsPopup().open()
+        text: 'C'
+        bold: True
+        font_size: min(Window.width*30/405, Window.height*30/720)
+        size_hint: (None, 1/12)
+        width: self.height
+        pos: (root.x, root.y)
+        background_normal: ''
+        background_down: ''
+        background_color: app.colors['darkgreen']
+
+
+<CreditsPopup@Popup>:
+    title: u'Cr\u00e9ditos'
+    title_size: min(Window.width*20/405, Window.height*20/720)
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: 'Dedicado ao meu pai, minha maior inspira\u00E7\u00e3o\n\n\n- Desenvolvido por Alexandre Porcher Fernandes\n\n- Agrade\u00E7o aos que contribu\u00EDram com fotos'
+            font_size: min(Window.width*20/405, Window.height*20/720)
+            text_size: self.size
+            halign: 'left'
+            valign: 'top'
+            padding: (15, 30)
+
+        Button:
+            on_release: root.dismiss()
+            text: 'Fechar'
+            font_size: min(Window.width*25/405, Window.height*25/720)
+            size_hint_y: 1/5
 
 
 <InfoLayout>:
