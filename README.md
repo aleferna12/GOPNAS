@@ -55,7 +55,7 @@ as seguintes especificações:
 #### Para adicionar espécies de aves à grupos já existentes:
 	
 Todas espécies são representadas por pastas inseridas **obrigatoriamente** dentro de uma das pastas de grupos pré-existentes.
- Isso implica que **sob hipótese alguma espécies podem ser adicionadas fora de um grupo**. O nome da pasta da esécie deve corresponder ao nome científico da espécie, porém não em italico. Existe um arquivo no diretório "cladi" chamado "species_aliases.json". Nesse arquivo o nome da pasta deve ser 
+ Isso implica que **sob hipótese alguma espécies podem ser adicionadas fora de um grupo**. O nome da pasta da espécie deve corresponder ao nome científico da espécie, porém não em italico. Existe um arquivo no diretório "cladi" chamado "species_aliases.json". Nesse arquivo o nome da pasta deve ser 
  adicionado seguido por ":" e o nome que se deseja exibir no aplicativo. Ex.:
 
     {
