@@ -1,5 +1,4 @@
 #! "D:\alefe\Python Venvs\Python37\GOPNAS\Scripts\python.exe"
-# coding: utf-8
 from kivy.config import Config
 
 Config.set('graphics', 'width', 405)
@@ -8,7 +7,6 @@ Config.set('graphics', 'window_state', 'maximized')
 Config.set('graphics', 'resizable', True)
 
 import os
-import codecs
 import json
 import PIL.Image
 import colordict as cd
@@ -95,7 +93,7 @@ class InfoLayout(FloatLayout):
 
 	def set_info_label(self, btn):
 		self.info_label.parent.scroll_y = 1
-		with codecs.open(os.path.join(self.cladus_directory, btn.file), 'r', 'utf-8') as file:
+		with open(os.path.join(self.cladus_directory, btn.file), 'r', encoding='utf-8') as file:
 			self.info_label.text = file.read()
 		self.current_tab.color = app.colors['black']
 		btn.color = app.colors['current_tab']
@@ -214,7 +212,7 @@ class MainApp(App):
 		self.title = 'GOPNAS'
 		self.resources_directory = os.path.join(self.directory, 'Resources')
 		self.cladi_directory = os.path.join(self.directory, 'Cladi')
-		with codecs.open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r', 'utf-8') as file:
+		with open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r', encoding='utf-8') as file:
 			self.species_aliases = json.load(file)
 		return Root()
 

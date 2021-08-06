@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-# Esse script serve para criar o executável com o seguinte comando: "py -m PyInstaller gopnas.spec"
+# Esse script serve para criar o executável com o seguinte comando: "py -m PyInstaller pyinstaller.spec"
 # Não faça isso se não souber o que está fazendo!
 import PyInstaller.config
 PyInstaller.config.CONF['distpath'] = "."
@@ -9,7 +9,6 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\alefe\\Desktop\\distributions\\gopnas\\exe\\0.2\\--onefile'],
              binaries=[],
              datas=[],
              hiddenimports=[],
