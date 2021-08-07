@@ -200,19 +200,26 @@ class CommentLabel(Label):
 			self.background_color = app.colors['dimgray']
 
 
+class CreditsLabel(Label):
+	@staticmethod
+	def get_credits_text():
+		with open(os.path.join(app.resources_directory, "credits.txt"), encoding="UTF-8") as file:
+			return file.read()
+
+
 class MainApp(App):
 	btns_h = NumericProperty(1/8)
 	infos_width_hint = NumericProperty(5/6)
 	resources_directory = StringProperty('')
 	cladi_directory = StringProperty('')
-	species_aliases = DictProperty({})
+	species_aliases = DictProperty()
 	colors = ObjectProperty(cd.ColorDict(norm=1, mode='rgba', palettes_path='Resources/Palettes'))
 
 	def build(self):
 		self.title = 'GOPNAS'
 		self.resources_directory = os.path.join(self.directory, 'Resources')
 		self.cladi_directory = os.path.join(self.directory, 'Cladi')
-		with open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r', encoding='utf-8') as file:
+		with open(os.path.join(self.cladi_directory, 'species_aliases.json'), 'r') as file:
 			self.species_aliases = json.load(file)
 		return Root()
 
