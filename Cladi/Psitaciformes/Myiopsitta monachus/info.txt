@@ -4,8 +4,8 @@
 
 [b]Subespécies[/b]
 
-    [i]Myiopsitta monachus monachus[/i]
-
-    [i]Myiopsitta monachus cotorra[/i]
-
-    [i]Myiopsitta monachus calita[/i]
+    - [i]Myiopsitta monachus monachus[/i] - ocorre no sul do Brasil, no Uruguai e no nordeste da Argentina. Esta subespécie é a descrita acima.
+    
+    - [i]Myiopsitta monachus cotorra[/i] - ocorre no sul da Bolívia até o Paraguai, e na região adjacente do Brasil e no noroeste da Argentina. As subespécies cotorra e calita são muito parecidas e de difícil distinção, entretanto a subespécie cotorra apresenta a plumagem com cores mais claras e a barriga menos amarelada. (Juniper & Parr, 1998).
+    
+    - [i]Myiopsitta monachus calita[/i] - ocorre no oeste da Argentina, desde a região de Salta até o oeste de Córdoba, Mendoza e La Pampa. Esta subespécie é menor que a subespécie nominal e muito parecida com a subespécie cotorra, entretanto apresenta mais azul nas asas, e cinza mais escuro na cabeça. (Juniper & Parr, 1998).
