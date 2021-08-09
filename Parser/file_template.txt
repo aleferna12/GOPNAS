@@ -1,0 +1,9 @@
+[b]Nomes[/b]
+
+Nomes Populares: {pop_names}, ADICIONAR DEMAIS
+
+Nome Científico: [i]{sci_names}[/i]
+
+Nome em Inglês: {en_name}
+
+[b]Classificação Científica[/b]
