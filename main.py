@@ -76,7 +76,10 @@ class InfoLayout(FloatLayout):
 		im_iter.sort()
 		for i, image in enumerate(im_iter):
 			im_path = os.path.join(path, image)
-			# Decodifica o metadata do JPG em busca de comentários (marcados pela tag 40092)
+			valid_jpeg = [".jpg", ".JPG", ".jpeg", ".JPEG"]
+			if image[-4:] not in valid_jpeg:
+				raise Exception(f"File parsed from \"{im_path}\" is not a valid JPEG extension {tuple(valid_jpeg)}")
+			# Decodifica o metadata do JPEG em busca de comentários (marcados pela tag 40092)
 			image_exif = PIL.Image.open(im_path).getexif()
 			comment_binary = image_exif.get(40092)
 			author = image_exif.get(315)

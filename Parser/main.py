@@ -167,22 +167,16 @@ def create_files(species_name, path, create_folder=False, warning=True):
 
 def main():
 	path = "C:/Users/alefe/Desktop/Python Projects/Projects/GOPNAS/New Species/Web Scrapped"
-	species = [
-		"curicaca",
-		"Beija-flor-de-fronte-violeta",
-		"Anu-branco",
-		"choca-da-mata",
-		"aracuã-escamoso",
-		"Carrapateiro",
-		"sovi",
-		"beija-flor-de-garganta-verde",
-		"Pica-pau-anão-de-coleira",
-		"Gavião-pega-macaco",
-		"beija-flor-de-veste-preta"
-	]
+	print("Input species separated by \" \" or by \",\":")
+	running = True
+	while running:
+		raw_input = input()
+		if not raw_input or raw_input == ".":
+			running = False
+		species = raw_input.replace(" ,", ',').replace(' ', ',').split(',')
 
-	for species_name in species:
-		create_files(species_name, path, create_folder=True)
+		for species_name in species:
+			create_files(species_name, path, create_folder=True)
 
 
 if __name__ == "__main__":
