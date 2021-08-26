@@ -166,7 +166,7 @@ def create_files(species_name, path, create_folder=False, warning=True):
 
 
 def main():
-	path = "C:/Users/alefe/Desktop/Python Projects/Projects/GOPNAS/New Species/Web Scrapped"
+	path = "./New Species/Web Scrapped"
 	print("Input species separated by \" \" or by \",\":")
 	running = True
 	while running:

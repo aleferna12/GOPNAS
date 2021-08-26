@@ -1,4 +1,5 @@
 #! "D:\alefe\Python Venvs\Python37\GOPNAS\Scripts\python.exe"
+import codecs
 from kivy.config import Config
 
 Config.set('graphics', 'width', 405)
@@ -39,7 +40,7 @@ class Root(FloatLayout):
 		self.dropdown.auto_dismiss = False
 		self.dropdown.effect_cls = 'ScrollEffect'
 		self.dropdown_button.bind(on_release=self.dropdown.open)
-		groups = sorted(next(os.walk(app.cladi_directory))[1])
+		groups = sorted(next(os.walk(app.cladi_directory))[1], key=lambda el: int(el[:2]))
 		for group in groups:
 			self.dropdown.add_widget(GroupButton(group))
 

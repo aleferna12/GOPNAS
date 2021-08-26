@@ -1,0 +1,19 @@
+[b]Nomes[/b]
+
+Nomes Populares: Gralha-azul
+
+Nome Científico: [i]Cyanocorax caeruleus[/i]
+
+Nome em Inglês: Azure Jay
+
+[b]Classificação Científica[/b]
+
+Ordem: Passeriformes
+
+Subordem: Passeri
+
+Parvordem: Corvida
+
+Família: Corvidae
+
+Espécie: [i]C. caeruleus[/i]

@@ -1,10 +1,18 @@
 [b]
+
+Guia de utilização para identificação de uma espécie:
+1. Procure no menu principal do app pela forma aproximada da espécie em questão e clique nela;
+2. No menu secundário, procure pelo ícone que mais se assemelhe à espécie e clique nele;
+3. Confirme a identificação através das fotos e das características físicas descritas na aba "Características" da página individual da espécie.
+
+Muitas espécies ainda não foram adicionadas, e por isso não é garantido que o animal procurado possua um registro no aplicativo. Se tiver interesse em contribuir para adicionar mais espécies à nossa base de dados, considere contribuir através das instruções disponíveis em https://github.com/aleferna12/GOPNAS.
+[/b]
+
 Desenvolvido por:
 
     Alexandre Porcher Fernandes
         - Universidade Federal do Rio Grande do Sul
         - Universidade do Porto
-[/b]
 
 Foi obtida a permissão dos respectivos autores para incluir todos os registros fotográficos não pertencentes ao domínio público. Créditos individuais podem ser consultados no canto inferior esquerdo de cada imagem.
 
