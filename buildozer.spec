@@ -36,7 +36,7 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.7.5, hostpython3==3.7.5, kivy==1.11.1, colordict==1.2.3
+requirements = python3==3.7.5, hostpython3==3.7.5, kivy==1.11.1, colordict==1.2.3, ExifRead=2.3.2
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
