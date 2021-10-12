@@ -9,7 +9,7 @@ Config.set('graphics', 'resizable', True)
 
 import os
 import json
-import PIL.Image
+import exifread
 import colordict as cd
 
 from kivy.app import App
@@ -81,9 +81,10 @@ class InfoLayout(FloatLayout):
 			if image[-4:] not in valid_jpeg:
 				raise Exception(f"File parsed from \"{im_path}\" is not a valid JPEG extension {tuple(valid_jpeg)}")
 			# Decodifica o metadata do JPEG em busca de comentários (marcados pela tag 40092)
-			image_exif = PIL.Image.open(im_path).getexif()
-			comment_binary = image_exif.get(40092)
-			author = image_exif.get(315)
+			with open(im_path, 'rb') as file:
+				image_exif = exifread.process_file(file)
+			comment_binary = image_exif.get("Image XPComment")
+			author = image_exif.get("Image Artist")
 			# Carrega a primeira imagem imediatamente enquanto as demais carregam asincronizadamente
 			if i == 0:
 				self.carousel.add_widget(CommentedImage(comment_binary, author, source=im_path, allow_stretch=True))
@@ -167,9 +168,9 @@ class CommentedImage(Image):
 		self.comment = ''
 		# Cortar o último byte que vem bugado
 		if comment_bin is not None:
-			self.comment += comment_bin.decode('utf-16')[:-1]
+			self.comment += bytearray(comment_bin.values).decode('utf-16')[:-1]
 		if author is not None:
-			self.comment += ('; ' if self.comment else '') + 'Foto de ' + author
+			self.comment += ('; ' if self.comment else '') + 'Foto de ' + author.values
 		if self.comment:
 			self.comment_label = CommentLabel(text=self.comment)
 			self.bind(pos=self.comment_label.setter('pos'))

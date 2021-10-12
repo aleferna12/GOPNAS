@@ -10,23 +10,18 @@
 2. Extraia a pasta "GOPNAS-1.0.0-beta" do arquivo (clique com o botão direito no arquivo "GOPNAS-1.0.0-beta.zip" e depois na opção "Extrair Aqui")
 3. Entre na pasta e execute o arquivo "GOPNAS.exe"
 
-###### Última versão de desenvolvimento
-
-1. Clique no botão verde "Code" e depois em "Download ZIP"
-2. Extraia a pasta "GOPNAS" do arquivo (clique com o botão direito no arquivo .zip e na opção "Extrair Aqui")
-3. Entre na pasta e execute o arquivo "GOPNAS.exe"
-
 ## Guia de contribuição
 
 Esta aplicação é autonoma no que se refere à adição de novas espécies e grupos de aves.
-Desde de que os arquivos tenham sido adicionados da forma correta, eles serão automaticamente dispostos na árvore dentro
+Desde que os arquivos tenham sido adicionados da forma correta, eles serão automaticamente dispostos na árvore dentro
  da aplicação em ordem alfabética.
+Para fazer alterações, usuários podem comprimir os arquivos num zip e enviar para aleferna2001@hotmail.com.
 
 #### Para adicionar grupos de aves:
 
 Todos os grupos de aves devem ser pastas no diretório "cladi".
 Os nomes de tais pastas não importam, podendo ser manipulados de forma a forçar certos grupos a aparecerem antes ou depois.
- Eles, no entanto **não** podem conter acentos agudos, sendo somente permitidos caracteres existentes na língua inglesa
+ Eles, no entanto **não** podem conter acentos agudos, sendo somente permitidos caracteres existentes na língua inglesa.
 
 As pastas dos grupos devem conter:
 
@@ -54,7 +49,7 @@ as seguintes especificações:
 
 #### Para adicionar espécies de aves à grupos já existentes:
 	
-Todas espécies são representadas por pastas inseridas **obrigatoriamente** dentro de uma das pastas de grupos pré-existentes.
+Todas as espécies são representadas por pastas inseridas **obrigatoriamente** dentro de uma das pastas de grupos pré-existentes.
  Isso implica que **sob hipótese alguma espécies podem ser adicionadas fora de um grupo**. O nome da pasta da espécie deve corresponder ao nome científico da espécie, porém não em italico. Existe um arquivo no diretório "cladi" chamado "species_aliases.json". Nesse arquivo o nome da pasta deve ser 
  adicionado seguido por ":" e o nome que se deseja exibir no aplicativo. Ex.:
 
