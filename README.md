@@ -2,6 +2,12 @@
 
 ## Instalação
 
+#### Android
+
+1. Pesquise "GOPNAS" na Play Store
+2. Clique em "Instalar"
+3. O aplicativo pode não estar disponível em algumas localidades
+
 #### Windows
 
 ###### Beta (recomendado)
