@@ -1,5 +1,4 @@
 #! "D:\alefe\Python Venvs\Python37\GOPNAS\Scripts\python.exe"
-import codecs
 from kivy.config import Config
 
 Config.set('graphics', 'width', 405)
